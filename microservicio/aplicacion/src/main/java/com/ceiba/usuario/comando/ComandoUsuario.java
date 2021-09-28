@@ -14,7 +14,7 @@ import lombok.Setter;
 public class ComandoUsuario{
 
     private Long id;
+    private String cedula;
     private String nombre;
-    private String clave;
-    private LocalDateTime fecha;
+    private String telefono;
 }

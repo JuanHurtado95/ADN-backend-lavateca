@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DtoUsuario {
     private Long id;
+    private String cedula;
     private String nombre;
-    private String clave;
-    private LocalDateTime fechaCreacion;
+    private String telefono;
 
 }

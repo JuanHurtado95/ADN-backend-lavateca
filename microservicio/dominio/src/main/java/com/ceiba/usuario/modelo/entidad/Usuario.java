@@ -6,33 +6,44 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 import static com.ceiba.dominio.ValidadorArgumento.validarLongitud;
-import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
+import static com.ceiba.dominio.ValidadorArgumento.*;
 
 @Getter
 public class Usuario {
 
-    private static final String SE_DEBE_INGRESAR_LA_FECHA_CREACION = "Se debe ingresar la fecha de creación";
-    private static final String LA_CLAVE_DEBE_TENER_UNA_LONGITUD_MAYOR_O_IGUAL_A = "La clave debe tener una longitud mayor o igual a %s";
-    private static final String SE_DEBE_INGRESAR_LA_CLAVE = "Se debe ingresar la clave";
+    private static final String SE_DEBE_INGRESAR_LA_CEDULA = "Se debe ingresar la cedula";
     private static final String SE_DEBE_INGRESAR_EL_NOMBRE_DE_USUARIO = "Se debe ingresar el nombre de usuario";
+    private static final String SE_DEBE_INGRESAR_EL_TELEFONO = "Se debe ingresar el telefono";
 
-    private static final int LONGITUD_MINIMA_CLAVE = 4;
+    private static final String LA_CEDULA_DEBE_SER_NUMERICO = "La Cedula debe ser numerica, no debe contener simbolos, ni espacios";
+    private static final String LA_CEDULA_DEBE_SER_POSITIVA = "La Cedula debe ser numerica positiva";
+    private static final String EL_NOMBRE_DEBE_SER_TEXTO = "El nombre solo puede contener letas, sin numeros ni simbolos";
+    private static final String EL_TELEFONO_DEBE_SER_NUMERICO = "El telefono debe ser numerico, no debe contener simbolos, ni espacios";
+    private static final String EL_TELEFONO_DEBE_SER_POSITIVA = "La telefono debe ser numerica positiva";
+
+
+
 
     private Long id;
+    private String cedula;
     private String nombre;
-    private String clave;
-    private LocalDateTime fechaCreacion;
+    private String telefono;
 
-    public Usuario(Long id,String nombre, String clave,LocalDateTime fechaCreacion) {
+    public Usuario(Long id, String cedula, String nombre, String telefono) {
         validarObligatorio(nombre, SE_DEBE_INGRESAR_EL_NOMBRE_DE_USUARIO);
-        validarObligatorio(clave, SE_DEBE_INGRESAR_LA_CLAVE);
-        validarLongitud(clave, LONGITUD_MINIMA_CLAVE, String.format(LA_CLAVE_DEBE_TENER_UNA_LONGITUD_MAYOR_O_IGUAL_A,LONGITUD_MINIMA_CLAVE));
-        validarObligatorio(fechaCreacion, SE_DEBE_INGRESAR_LA_FECHA_CREACION);
+        validarObligatorio(cedula, SE_DEBE_INGRESAR_LA_CEDULA);
+        validarObligatorio(telefono, SE_DEBE_INGRESAR_EL_TELEFONO);
+
+        validarNumerico(cedula, LA_CEDULA_DEBE_SER_POSITIVA);
+        validarPositivo(Double.parseDouble(cedula), LA_CEDULA_DEBE_SER_POSITIVA);
+        validarNumerico(telefono, LA_CEDULA_DEBE_SER_POSITIVA);
+        validarPositivo(Double.parseDouble(telefono), LA_CEDULA_DEBE_SER_POSITIVA);
+
 
         this.id = id;
+        this.cedula = cedula;
         this.nombre = nombre;
-        this.clave = clave;
-        this.fechaCreacion = fechaCreacion;
+        this.telefono = telefono;
     }
 
 }

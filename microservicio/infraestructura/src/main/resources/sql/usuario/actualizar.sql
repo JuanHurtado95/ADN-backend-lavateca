@@ -1,5 +1,5 @@
 update usuario
-set nombre = :nombre,
-	clave = :clave,
-	fecha_creacion = :fechaCreacion
+set cedula = :cedula,
+    nombre = :nombre,
+	telefono = :telefono
 where id = :id

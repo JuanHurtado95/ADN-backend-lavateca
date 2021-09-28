@@ -1,5 +1,9 @@
 package com.ceiba.configuracion;
 
+import com.ceiba.cita.puerto.repositorio.RepositorioCita;
+import com.ceiba.cita.servicio.ServicioActulizarCita;
+import com.ceiba.cita.servicio.ServicioCrearCita;
+import com.ceiba.cita.servicio.ValidadorCita;
 import com.ceiba.usuario.puerto.repositorio.RepositorioUsuario;
 import com.ceiba.usuario.servicio.ServicioActualizarUsuario;
 import com.ceiba.usuario.servicio.ServicioCrearUsuario;
@@ -24,6 +28,14 @@ public class BeanServicio {
     public ServicioActualizarUsuario servicioActualizarUsuario(RepositorioUsuario repositorioUsuario) {
         return new ServicioActualizarUsuario(repositorioUsuario);
     }
-	
 
+    @Bean
+    public ServicioCrearCita servicioCrearCita(RepositorioCita repositorioCita) {
+        return new ServicioCrearCita(repositorioCita);
+    }
+
+    @Bean
+    public ServicioActulizarCita servicioActulizarCita(RepositorioCita repositorioCita, RepositorioUsuario repositorioUsuario) {
+        return new ServicioActulizarCita(repositorioCita, repositorioUsuario);
+    }
 }
