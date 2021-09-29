@@ -1,15 +1,14 @@
 package com.ceiba.cita.modelo.entidad;
 
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +17,7 @@ import static com.ceiba.dominio.ValidadorArgumento.validarPositivo;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Cita {
 
     private static final String SE_DEBE_INGRESA_LA_CEDULA_DEL_USUARIO = "Se debe ingresar la cedula del usuario";
@@ -51,13 +51,18 @@ public class Cita {
     private String placa;
     private Double valor;
 
-    public Cita(Long id, String cedulaUsuario, String fecha, String tipoVehiculo, String placa, Double valor) {
+    public Cita(Long id, String fecha) {
+
+        this.id = id;
+        this.fecha = fecha;
+
+    }
+    public Cita(String cedulaUsuario, String fecha, String tipoVehiculo, String placa) {
 
         validarObligatorio(cedulaUsuario, SE_DEBE_INGRESA_LA_CEDULA_DEL_USUARIO);
         validarObligatorio(fecha, SE_DEBE_INGRESAR_LA_FECHA);
         validarObligatorio(tipoVehiculo, SE_DEBE_INGRESAR_EL_TIPO_DE_VEHICULO);
         validarObligatorio(placa, SE_DEBE_INGRESAR_LA_PLACA_DEL_VEHICULO);
-        validarObligatorio(valor, SE_DEBE_INGRESAR_EL_VALOR);
 
         validarAlfanumerico(placa, TIPO_DE_PLACA_ERRONEA);
         validarPlaca(placa, TIPO_DE_PLACA_ERRONEA);
@@ -67,12 +72,12 @@ public class Cita {
         validarNumerico(cedulaUsuario, LA_CEDULA_DEBE_SER_NUMERICA);
         validarPositivo(Double.parseDouble(cedulaUsuario), LA_CEDULA_DEBE_SER_POSITIVA);
         validarTipoVehiculo(tipoVehiculo, TIPO_DE_VEHICULO_EQUIVOCADO);
-        validarValorServicio(valor, tipoVehiculo);
+        registrarValorServicio(tipoVehiculo);
 
-        this.id = id;
         this.cedulaUsuario = cedulaUsuario;
         this.fecha = fecha;
         this.placa = placa;
+        this.tipoVehiculo = tipoVehiculo.toUpperCase();
     }
 
     private static void validarFormatoFecha(String fecha, String mensaje) {
@@ -101,17 +106,15 @@ public class Cita {
     }
 
     private void validarTipoVehiculo(String tipoVehiculo, String mensaje){
-        if(!TIPO_DE_VEHICULO_CARRO.equals(tipoVehiculo.toUpperCase())  || TIPO_DE_VEHICULO_MOTO.equals(tipoVehiculo.toUpperCase())){
+        if(!TIPO_DE_VEHICULO_CARRO.equals(tipoVehiculo.toUpperCase())  && !TIPO_DE_VEHICULO_MOTO.equals(tipoVehiculo.toUpperCase())){
             throw new ExcepcionValorInvalido(mensaje);
         }
     }
 
-    private void validarValorServicio(Double valor, String tipoVehiculo){
+    private void registrarValorServicio(String tipoVehiculo){
         if(TIPO_DE_VEHICULO_CARRO.equals(tipoVehiculo.toUpperCase())){
-            setTipoVehiculo(TIPO_DE_VEHICULO_CARRO);
             setValor(VALOR_SERVICIO_CARRO);
         }else{
-            setTipoVehiculo(TIPO_DE_VEHICULO_MOTO);
             setValor(VALOR_SERVICIO_MOTO);
         }
     }

@@ -7,6 +7,8 @@ import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+
 @Repository
 public class RepositorioCitaMysql implements RepositorioCita {
 
@@ -27,6 +29,12 @@ public class RepositorioCitaMysql implements RepositorioCita {
     @SqlStatement(namespace = "cita", value = "existePersona")
     private static String sqlExistePersona;
 
+    @SqlStatement(namespace = "cita", value = "fechaCita")
+    private static String sqlFechaCita;
+
+    @SqlStatement(namespace = "cita", value = "existeCitaId")
+    private static String sqlExisteCitaId;
+
     public RepositorioCitaMysql(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
     }
@@ -38,7 +46,10 @@ public class RepositorioCitaMysql implements RepositorioCita {
 
     @Override
     public void actualizar(Cita cita) {
-        this.customNamedParameterJdbcTemplate.actualizar(cita, sqlActualizar);
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", cita.getId());
+        paramSource.addValue("fecha", cita.getFecha());
+        this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().update(sqlActualizar, paramSource);
     }
 
     @Override
@@ -50,18 +61,35 @@ public class RepositorioCitaMysql implements RepositorioCita {
     }
 
     @Override
-    public boolean existe(String placa) {
+    public boolean existe(String placa, String fecha) {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("placa", placa);
+        paramSource.addValue("fecha", fecha);
 
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExiste, paramSource, Boolean.class);
     }
 
     @Override
-    public boolean existeCitaPersona(String cedula) {
+    public boolean existePersona(String cedula) {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("cedula", cedula);
 
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExistePersona, paramSource, Boolean.class);
     }
+
+    @Override
+    public LocalDate fechaCita(Long id) {
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", id);
+
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlFechaCita, paramSource, LocalDate.class);
+    }
+
+    @Override
+    public boolean existe(Long id) {
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", id);
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExisteCitaId, paramSource, Boolean.class);
+    }
+
 }

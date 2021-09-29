@@ -1,2 +1,2 @@
-select id, cedulaUsuario, fecha, tipoVehiculo, placa, valor
+select id, cedula_usuario, fecha, tipo_vehiculo, placa, valor
 from cita

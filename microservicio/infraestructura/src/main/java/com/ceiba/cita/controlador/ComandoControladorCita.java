@@ -2,8 +2,10 @@ package com.ceiba.cita.controlador;
 
 import com.ceiba.ComandoRespuesta;
 import com.ceiba.cita.comando.ComandoCita;
+import com.ceiba.cita.comando.ComandoCitaActualizar;
 import com.ceiba.cita.comando.manejador.ManejadorActualizarCita;
 import com.ceiba.cita.comando.manejador.ManejadorCrearCita;
+import com.ceiba.cita.comando.manejador.ManejadorEliminarCita;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +18,14 @@ public class ComandoControladorCita {
 
     private final ManejadorCrearCita manejadorCrearCita;
     private final ManejadorActualizarCita manejadorActualizarCita;
+    private final ManejadorEliminarCita manejadorEliminarCita;
 
     @Autowired
-    public ComandoControladorCita(ManejadorCrearCita manejadorCrearCita, ManejadorActualizarCita manejadorActualizarCita) {
+    public ComandoControladorCita(ManejadorCrearCita manejadorCrearCita, ManejadorActualizarCita manejadorActualizarCita, ManejadorEliminarCita manejadorEliminarCita) {
         this.manejadorCrearCita = manejadorCrearCita;
         this.manejadorActualizarCita = manejadorActualizarCita;
+        this.manejadorEliminarCita = manejadorEliminarCita;
     }
-    /*
-    @PostMapping(value="/imprimir")
-    @ApiOperation("Prueba")
-    public @ResponseBody String imprimir(@RequestBody String id ){
-        return "Hola";
-    }*/
 
     @PostMapping
     @ApiOperation("Crear Cita")
@@ -35,11 +33,19 @@ public class ComandoControladorCita {
         return manejadorCrearCita.ejecutar(comandoCita);
     }
 
-    @PutMapping(value = "{placa}")
-    @ApiOperation("Actualizar Cita")
-    public void actualizar(@RequestBody ComandoCita comandoCita, @PathVariable String placa){
-        comandoCita.setPlaca(placa);
+    @PutMapping(value = "/{id}/{fechaNueva}")
+    @ApiOperation("Reprogramar Cita")
+    public void actualizar(@PathVariable Long id, @PathVariable String fechaNueva){
+        ComandoCitaActualizar comandoCita = new ComandoCitaActualizar();
+        comandoCita.setFechaNueva(fechaNueva);
+        comandoCita.setId(id);
         manejadorActualizarCita.ejecutar(comandoCita);
+    }
+
+    @DeleteMapping(value="/{id}")
+    @ApiOperation("Eliminar Usuario")
+    public void eliminar(@PathVariable Long id) {
+        manejadorEliminarCita.ejecutar(id);
     }
 
 }

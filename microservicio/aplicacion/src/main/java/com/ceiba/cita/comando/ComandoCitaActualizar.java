@@ -9,11 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComandoCita {
+public class ComandoCitaActualizar {
 
-    private String cedulaUsuario;
-    private String fecha;
-    private String tipoVehiculo;
-    private String placa;
+    private Long id;
+    private String fechaNueva;
 
 }

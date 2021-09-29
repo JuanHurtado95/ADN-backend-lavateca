@@ -10,7 +10,6 @@ import java.time.LocalDate;
 public class ServicioActulizarCita{
 
     private static final String LA_CITA_NO_EXISTE_EN_EL_SISTEMA = "La cita no existe en el sistema";
-    private static final String El_USUARIO_NO_EXISTE_EN_EL_SISTEMA = "El usuario no existe en el sistema";
 
     private final RepositorioCita repositorioCita;
     private final RepositorioUsuario repositorioUsuario;
@@ -23,23 +22,20 @@ public class ServicioActulizarCita{
     }
 
     public void ejecutar(Cita cita){
-        validarExistenciaCita(cita.getPlaca());
-        validarExistenciaUsuario(cita.getCedulaUsuario());
-        validadorCita.validarActualizarFechaCita(LocalDate.parse(cita.getFecha()));
+        validarExistenciaCita(cita);
+        validadorCita.validarActualizarFechaCita(fechaCita(cita.getId()));
         this.repositorioCita.actualizar(cita);
     }
 
-    private void validarExistenciaCita(String placa) {
-        boolean existe = this.repositorioCita.existe(placa);
+    private void validarExistenciaCita(Cita cita) {
+        boolean existe = this.repositorioCita.existe(cita.getId());
         if(!existe){
             throw new ExcepcionCita(LA_CITA_NO_EXISTE_EN_EL_SISTEMA);
         }
     }
 
-    private void validarExistenciaUsuario(String cedula) {
-        boolean existe = this.repositorioCita.existeCitaPersona(cedula);
-        if(!existe){
-            throw new ExcepcionCita(LA_CITA_NO_EXISTE_EN_EL_SISTEMA);
-        }
+    private LocalDate fechaCita(Long id){
+        LocalDate fechaCita = this.repositorioCita.fechaCita(id);
+        return fechaCita;
     }
 }

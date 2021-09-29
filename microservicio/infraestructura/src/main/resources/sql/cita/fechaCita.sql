@@ -1,1 +1,1 @@
-select fecha from cita where placa = :placa
+select fecha from cita where id = :id

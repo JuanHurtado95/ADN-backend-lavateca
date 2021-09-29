@@ -16,7 +16,7 @@ public class ServicioCrearUsuarioTest {
     @DisplayName("Deberia lanzar una exepecion cuando la longitud de la clave sea menor a 4")
     void deberiaLanzarUnaExepcionCuandoLaLongitudDeLaClaveSeaMenorACuatro() {
         // arrange
-        UsuarioTestDataBuilder usuarioTestDataBuilder = new UsuarioTestDataBuilder().conClave("124");
+        UsuarioTestDataBuilder usuarioTestDataBuilder = new UsuarioTestDataBuilder().conCedula("42445756");
         // act - assert
         BasePrueba.assertThrows(usuarioTestDataBuilder::build, ExcepcionLongitudValor.class, "La clave debe tener una longitud mayor o igual a 4");
     }

@@ -4,9 +4,12 @@ import com.ceiba.cita.modelo.dto.DtoCita;
 import com.ceiba.cita.puerto.dao.DaoCita;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
 import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
+import com.ceiba.usuario.adaptador.dao.MapeoUsuario;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class DaoCitaMysql implements DaoCita {
 
     private final CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate;
@@ -20,6 +23,6 @@ public class DaoCitaMysql implements DaoCita {
 
     @Override
     public List<DtoCita> listar() {
-        return null;
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().query(sqlListar, new MapeoCita());
     }
 }
