@@ -1,1 +1,0 @@
-select count(1) from cita where id = :id
