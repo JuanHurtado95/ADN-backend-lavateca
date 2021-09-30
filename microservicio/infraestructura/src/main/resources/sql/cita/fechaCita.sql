@@ -1,0 +1,1 @@
+select fecha from cita where id = :id

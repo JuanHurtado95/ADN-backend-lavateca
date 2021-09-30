@@ -1,0 +1,1 @@
+insert into usuario (cedula , nombre, telefono) values (:cedula, :nombre, :telefono)

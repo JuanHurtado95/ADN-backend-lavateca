@@ -1,0 +1,21 @@
+jasypt:
+   encryptor:
+      password: ${jasyptpwd:juan}
+      algorithm: PBEWithMD5AndDES
+
+server:
+   port: 8083
+   servlet:
+      context-path: /citas-lavateka
+      session:
+         timeout: 21600s
+
+spring:
+   datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+      jdbcUrl: jdbc:mysql://localhost:3306/citas-lavateka?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      username: ceiba
+      password: ENC(FDsETg8w8/dZmgk96ViiA9d2EbdqqU3t)
+      hikari:
+         poolName: pool
