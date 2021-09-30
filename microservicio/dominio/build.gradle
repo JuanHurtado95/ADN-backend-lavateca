@@ -29,6 +29,8 @@ jacocoTestReport {
 		xml.enabled true
 		html.enabled true
 	}
+	additionalSourceDirs files("../aplicacion/src/main/java")
+	additionalClassDirs files("../aplicacion/build/classes/java/main")
 }
 
 test {

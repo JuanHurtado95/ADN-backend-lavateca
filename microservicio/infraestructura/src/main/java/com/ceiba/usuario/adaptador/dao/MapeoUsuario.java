@@ -18,6 +18,6 @@ public class MapeoUsuario implements RowMapper<DtoUsuario>, MapperResult {
         String nombre = resultSet.getString("nombre");
         String telefono = resultSet.getString("telefono");
 
-        return new DtoUsuario(id,cedula, nombre, telefono);
+        return new DtoUsuario(id, cedula, nombre, telefono);
     }
 }
