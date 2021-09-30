@@ -1,1 +1,1 @@
-insert into usuario(cedula,nombre,telefono) values('1232343','david','4325475')
+insert into usuario(cedula,nombre,telefono) values('1232343','test','4325475')
