@@ -2,23 +2,38 @@ package com.ceiba.usuario.servicio;
 
 import com.ceiba.BasePrueba;
 import com.ceiba.dominio.excepcion.ExcepcionDuplicidad;
+import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import com.ceiba.usuario.modelo.entidad.Usuario;
 import com.ceiba.usuario.puerto.repositorio.RepositorioUsuario;
 import com.ceiba.usuario.servicio.testdatabuilder.UsuarioTestDataBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
+import java.time.LocalDate;
 
 public class ServicioActualizarUsuarioTest {
+
+    @Mock
+    private RepositorioUsuario repositorioUsuario;
+
+    @InjectMocks
+    private ServicioActualizarUsuario servicioActualizarUsuario;
+
+    public ServicioActualizarUsuarioTest() {
+
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     @DisplayName("Deberia validar la existencia previa del usuario")
     void deberiaValidarLaExistenciaPreviaDelUsuario() {
         // arrange
         Usuario usuario = new UsuarioTestDataBuilder().conId(1L).build();
-        RepositorioUsuario repositorioUsuario = Mockito.mock(RepositorioUsuario.class);
         Mockito.when(repositorioUsuario.existeExcluyendoId(Mockito.anyLong(),Mockito.anyString())).thenReturn(true);
-        ServicioActualizarUsuario servicioActualizarUsuario = new ServicioActualizarUsuario(repositorioUsuario);
         // act - assert
         BasePrueba.assertThrows(() -> servicioActualizarUsuario.ejecutar(usuario), ExcepcionDuplicidad.class,"El usuario ya existe en el sistema");
     }

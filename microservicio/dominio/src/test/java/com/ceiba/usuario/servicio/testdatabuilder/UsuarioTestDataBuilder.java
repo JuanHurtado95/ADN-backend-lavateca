@@ -12,6 +12,7 @@ public class UsuarioTestDataBuilder {
     private String telefono;
 
     public UsuarioTestDataBuilder() {
+        id=1l;
         cedula = "23434456";
         nombre = "juan";
         telefono = "23489252";
@@ -24,6 +25,16 @@ public class UsuarioTestDataBuilder {
 
     public UsuarioTestDataBuilder conId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public UsuarioTestDataBuilder conNombre(String nombre) {
+        this.nombre = nombre;
+        return this;
+    }
+
+    public UsuarioTestDataBuilder conTelefono(String telefono) {
+        this.telefono = telefono;
         return this;
     }
 

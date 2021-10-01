@@ -15,7 +15,6 @@ import static com.ceiba.dominio.ValidadorArgumento.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class Cita {
 
     private static final String SE_DEBE_INGRESA_LA_CEDULA_DEL_USUARIO = "Se debe ingresar la cedula del usuario";
@@ -26,7 +25,7 @@ public class Cita {
     private static final String LA_CEDULA_DEBE_SER_POSITIVA = "La Cedula debe ser numerica positiva";
 
     private static final String FORMATO_FECHA = "yyyy-MM-dd";
-    private static final String FORMATO_DE_FECHA_DE_COMPRA_ERRONEA = "Formato de fecha de compra es erronea";
+    private static final String FORMATO_DE_FECHA_DE_COMPRA_ERRONEA = "Formato de fecha de compra es erronea, debe tener la estructura YYYYMMDD";
     private static final String LA_FECHA_DE_CITA_INVALIDA = "La fecha de cita es invalida";
     private static final String NO_SE_PUEDE_MODIFICAR_LA_CITA = "la cita no se puede modificar, un dia antes de la fecha programada";
     private static final String NO_SE_AGENDAN_CITAS_SABADOS_Y_DOMINGOS = "No se agenda citas los dias sabados y domingos";
@@ -35,6 +34,7 @@ public class Cita {
     private static final String TIPO_DE_VEHICULO_CARRO = "CARRO";
     private static final String TIPO_DE_VEHICULO_MOTO = "MOTO";
     private static final String TIPO_DE_PLACA_ERRONEA = "la placa ingresada es incorrecta, debe ser alfanumerica";
+    private static final String NUMERO_CARACTERES_PLACA_ERRONEA = "la placa del vehiculo debe de tener 6 caracteres";
     private static final int NUMERO_CARACTERES_PLACA = 6;
     private static final double VALOR_SERVICIO_CARRO = 20000;
     private static final double VALOR_SERVICIO_MOTO = 10000;
@@ -62,9 +62,9 @@ public class Cita {
         validarObligatorio(placa, SE_DEBE_INGRESAR_LA_PLACA_DEL_VEHICULO);
 
         validarAlfanumerico(placa, TIPO_DE_PLACA_ERRONEA);
-        validarPlaca(placa, TIPO_DE_PLACA_ERRONEA);
+        validarPlaca(placa, NUMERO_CARACTERES_PLACA_ERRONEA);
 
-        validarFormatoFecha(formatoFecha(fecha), FORMATO_DE_FECHA_DE_COMPRA_ERRONEA);
+        validarFormatoFecha(fecha, FORMATO_DE_FECHA_DE_COMPRA_ERRONEA);
         validarFinDeSemana(convertirStringADate(fecha), NO_SE_AGENDAN_CITAS_SABADOS_Y_DOMINGOS);
         validarNumerico(cedulaUsuario, LA_CEDULA_DEBE_SER_NUMERICA);
         validarPositivo(Double.parseDouble(cedulaUsuario), LA_CEDULA_DEBE_SER_POSITIVA);
@@ -86,11 +86,6 @@ public class Cita {
         }
     }
 
-    private String formatoFecha(String fecha) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATO_FECHA);
-        return formatter.format(LocalDate.parse(fecha, formatter));
-    }
-
     private void validarFinDeSemana(LocalDate fechaServicio, String mensaje) {
         if (fechaServicio.getDayOfWeek() == DayOfWeek.SATURDAY || fechaServicio.getDayOfWeek() == DayOfWeek.SUNDAY) {
             throw new ExcepcionValorInvalido(mensaje);
@@ -103,13 +98,13 @@ public class Cita {
     }
 
     private void validarTipoVehiculo(String tipoVehiculo, String mensaje){
-        if(!TIPO_DE_VEHICULO_CARRO.equals(tipoVehiculo.toUpperCase())  && !TIPO_DE_VEHICULO_MOTO.equals(tipoVehiculo.toUpperCase())){
+        if(!TIPO_DE_VEHICULO_CARRO.equalsIgnoreCase(tipoVehiculo)  && !TIPO_DE_VEHICULO_MOTO.equalsIgnoreCase(tipoVehiculo)){
             throw new ExcepcionValorInvalido(mensaje);
         }
     }
 
     private void registrarValorServicio(String tipoVehiculo){
-        if(TIPO_DE_VEHICULO_CARRO.equals(tipoVehiculo.toUpperCase())){
+        if(TIPO_DE_VEHICULO_CARRO.equalsIgnoreCase(tipoVehiculo)){
             setValor(VALOR_SERVICIO_CARRO);
         }else{
             setValor(VALOR_SERVICIO_MOTO);

@@ -7,6 +7,7 @@ import com.ceiba.cita.servicio.testdatabuilder.CitaTestDataBuilder;
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import com.ceiba.dominio.excepcion.ExcepcionValorObligatorio;
 import com.ceiba.usuario.puerto.repositorio.RepositorioUsuario;
+import org.junit.Assert;
 import org.junit.Before;
 
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 public class ServicioCrearCitaTest {
 
@@ -26,12 +30,12 @@ public class ServicioCrearCitaTest {
     private static final String TIPO_DE_PLACA_ERRONEA = "la placa ingresada es incorrecta, debe ser alfanumerica";
     private static final String LA_CITA_YA_EXISTE_EN_EL_SISTEMA = "La cita para el vehiculo ya existe en el sistema";
     private static final String EL_USUARIO_NO_EXISTE_EN_EL_SISTEMA = "El usuario no esta registrado en el sistema";
+    private static final String NO_SE_AGENDAN_CITAS_SABADOS_Y_DOMINGOS = "No se agenda citas los dias sabados y domingos";
+    private static final String FORMATO_DE_FECHA_DE_COMPRA_ERRONEA = "Formato de fecha de compra es erronea, debe tener la estructura YYYYMMDD";
+    private static final String NUMERO_CARACTERES_PLACA_ERRONEA = "la placa del vehiculo debe de tener 6 caracteres";
 
     @Mock
     private RepositorioCita repositorioCita;
-
-    @Mock
-    private RepositorioUsuario repositorioUsuario;
 
     @InjectMocks
     private ServicioCrearCita servicioCrearCita;
@@ -97,7 +101,32 @@ public class ServicioCrearCitaTest {
     }
 
     @Test
-    public void validarExistenciaPorPlacaFecha() {
+    public void validarFormatoFechaYYYYMMDD(){
+
+        CitaTestDataBuilder citaTestDataBuilder = new CitaTestDataBuilder().conFecha("23-10-2021");
+
+        BasePrueba.assertThrows(() -> citaTestDataBuilder.build(), ExcepcionValorInvalido.class, FORMATO_DE_FECHA_DE_COMPRA_ERRONEA);
+    }
+
+    @Test
+    public void validarNumeroCaracteresPlaca(){
+
+        CitaTestDataBuilder citaTestDataBuilder = new CitaTestDataBuilder().conPlaca("SDF4");
+
+        BasePrueba.assertThrows(() -> citaTestDataBuilder.build(), ExcepcionValorInvalido.class, NUMERO_CARACTERES_PLACA_ERRONEA);
+
+    }
+
+    @Test
+    public void validarFechaDiferenteFinSemana(){
+
+        CitaTestDataBuilder citaTestDataBuilder = new CitaTestDataBuilder().conFecha("2021-10-23");
+
+        BasePrueba.assertThrows(() -> citaTestDataBuilder.build(), ExcepcionValorInvalido.class, NO_SE_AGENDAN_CITAS_SABADOS_Y_DOMINGOS);
+    }
+
+    @Test
+    public void validarExistenciaPorPlacaFechaTest() {
         // arrange
         Cita cita = new CitaTestDataBuilder().build();
         Mockito.when(repositorioCita.existe(cita.getPlaca(), cita.getFecha())).thenReturn(true);
@@ -111,5 +140,15 @@ public class ServicioCrearCitaTest {
         Mockito.when(repositorioCita.existePersona(cita.getCedulaUsuario())).thenReturn(false);
 
         BasePrueba.assertThrows(() -> servicioCrearCita.ejecutar(cita), ExcepcionValorInvalido.class, EL_USUARIO_NO_EXISTE_EN_EL_SISTEMA);
+    }
+
+    @Test
+    public void validarServicioCrearCitaTest(){
+
+        Mockito.when(repositorioCita.existe(anyString(), anyString())).thenReturn(false);
+        Mockito.when(repositorioCita.existePersona(anyString())).thenReturn(true);
+        Mockito.when(repositorioCita.crear(any())).thenReturn(1l);
+        Long resultado = servicioCrearCita.ejecutar(new CitaTestDataBuilder().build());
+        Assert.assertEquals(resultado, resultado);
     }
 }

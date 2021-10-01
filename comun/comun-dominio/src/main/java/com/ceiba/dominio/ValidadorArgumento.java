@@ -103,4 +103,12 @@ public class ValidadorArgumento {
         }
     }
 
+    public static void validarSoloLetras(String valor, String mensaje){
+        Pattern patronAlfanumerico = Pattern.compile("^[A-Za-z- ]+$");
+        Matcher comparadorAlfanumerico = patronAlfanumerico.matcher(valor);
+        if (!comparadorAlfanumerico.matches()) {
+            throw new ExcepcionValorInvalido(mensaje);
+        }
+    }
+
 }

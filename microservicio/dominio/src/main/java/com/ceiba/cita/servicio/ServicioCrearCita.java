@@ -3,7 +3,6 @@ package com.ceiba.cita.servicio;
 import com.ceiba.cita.modelo.entidad.Cita;
 import com.ceiba.cita.puerto.repositorio.RepositorioCita;
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
-import com.ceiba.usuario.puerto.repositorio.RepositorioUsuario;
 
 public class ServicioCrearCita {
 
@@ -11,11 +10,9 @@ public class ServicioCrearCita {
     private static final String EL_USUARIO_NO_EXISTE_EN_EL_SISTEMA = "El usuario no esta registrado en el sistema";
 
     private final RepositorioCita repositorioCita;
-    private final RepositorioUsuario repositorioUsuario;
 
-    public ServicioCrearCita(RepositorioCita repositorioCita, RepositorioUsuario repositorioUsuario) {
+    public ServicioCrearCita(RepositorioCita repositorioCita) {
         this.repositorioCita = repositorioCita;
-        this.repositorioUsuario = repositorioUsuario;
     }
 
     public Long ejecutar(Cita cita){
