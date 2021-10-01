@@ -1,1 +1,2 @@
-insert into usuario(cedula,nombre,telefono) values('1232343','test','4325475')
+insert into usuario(cedula,nombre,telefono) values('1232343','test','4325475');
+insert into cita(cedula_usuario, fecha, tipo_vehiculo, placa, valor) values ('1232343', '2021-10-04', 'MOTO','UYT453','10000');
