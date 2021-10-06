@@ -73,5 +73,4 @@ class ComandoControladorUsuarioTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
-
 }

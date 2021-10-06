@@ -19,8 +19,8 @@ create table vehiculo (
  id_tipo_vehiculo int(11) not null,
  placa varchar(6) not null,
  primary key (id),
- foreign key (id_usuario) REFERENCES usuario(id),
- foreign key (id_tipo_vehiculo) REFERENCES tipo_vehiculo(id)
+ foreign key (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE,
+ foreign key (id_tipo_vehiculo) REFERENCES tipo_vehiculo(id) ON DELETE CASCADE
 );
 
 create table cita (
@@ -28,5 +28,5 @@ create table cita (
  id_vehiculo int(11) not null,
  fecha date not null,
  primary key (id),
- foreign key (id_vehiculo) REFERENCES vehiculo(id)
+ foreign key (id_vehiculo) REFERENCES vehiculo(id) ON DELETE CASCADE
 );
