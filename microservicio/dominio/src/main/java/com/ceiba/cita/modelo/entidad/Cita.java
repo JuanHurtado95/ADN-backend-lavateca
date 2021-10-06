@@ -15,14 +15,11 @@ import static com.ceiba.dominio.ValidadorArgumento.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Cita {
 
-    private static final String SE_DEBE_INGRESA_LA_CEDULA_DEL_USUARIO = "Se debe ingresar la cedula del usuario";
+    private static final String SE_DEBE_INGRESAR_UN_ID_DE_VEHICULO = "Se debe ingresar un identificador de un vehiculo";
     private static final String SE_DEBE_INGRESAR_LA_FECHA = "Se debe ingresar la fecha";
-    private static final String SE_DEBE_INGRESAR_EL_TIPO_DE_VEHICULO = "Se debe ingresar el tipo de vehiculo";
-    private static final String SE_DEBE_INGRESAR_LA_PLACA_DEL_VEHICULO = "Se debe ingresar la placa del vehiculo";
-    private static final String LA_CEDULA_DEBE_SER_NUMERICA = "La Cedula debe ser numerica, no debe contener simbolos, ni espacios";
-    private static final String LA_CEDULA_DEBE_SER_POSITIVA = "La Cedula debe ser numerica positiva";
 
     private static final String FORMATO_FECHA = "yyyy-MM-dd";
     private static final String FORMATO_DE_FECHA_DE_COMPRA_ERRONEA = "Formato de fecha de compra es erronea, debe tener la estructura YYYYMMDD";
@@ -30,51 +27,30 @@ public class Cita {
     private static final String NO_SE_PUEDE_MODIFICAR_LA_CITA = "la cita no se puede modificar, un dia antes de la fecha programada";
     private static final String NO_SE_AGENDAN_CITAS_SABADOS_Y_DOMINGOS = "No se agenda citas los dias sabados y domingos";
 
-    private static final String TIPO_DE_VEHICULO_EQUIVOCADO = "Este tipo de vehiculo no existe en nuestro sistema";
-    private static final String TIPO_DE_VEHICULO_CARRO = "CARRO";
-    private static final String TIPO_DE_VEHICULO_MOTO = "MOTO";
-    private static final String TIPO_DE_PLACA_ERRONEA = "la placa ingresada es incorrecta, debe ser alfanumerica";
-    private static final String NUMERO_CARACTERES_PLACA_ERRONEA = "la placa del vehiculo debe de tener 6 caracteres";
-    private static final int NUMERO_CARACTERES_PLACA = 6;
-    private static final double VALOR_SERVICIO_CARRO = 20000;
-    private static final double VALOR_SERVICIO_MOTO = 10000;
-    private static final String VALOR_SERVICIO_EQUIVOCADO = "Valor del servicio equivocadp";
-
-
     private Long id;
-    private String cedulaUsuario;
-    private String fecha;
-    private String tipoVehiculo;
-    private String placa;
-    private Double valor;
+    private Long idVehiculo;
+    private LocalDate fecha;
 
-    public Cita(Long id, String fecha) {
+    /*public Cita(Long id, String fecha) {
 
         this.id = id;
-        this.fecha = fecha;
+        this.fecha = convertirStringADate(fecha);
 
-    }
-    public Cita(String cedulaUsuario, String fecha, String tipoVehiculo, String placa) {
+    }*/
 
-        validarObligatorio(cedulaUsuario, SE_DEBE_INGRESA_LA_CEDULA_DEL_USUARIO);
+    public Cita(Long id, Long idVehiculo, String fecha) {
+
+        validarObligatorio(idVehiculo, SE_DEBE_INGRESAR_UN_ID_DE_VEHICULO);
         validarObligatorio(fecha, SE_DEBE_INGRESAR_LA_FECHA);
-        validarObligatorio(tipoVehiculo, SE_DEBE_INGRESAR_EL_TIPO_DE_VEHICULO);
-        validarObligatorio(placa, SE_DEBE_INGRESAR_LA_PLACA_DEL_VEHICULO);
-
-        validarAlfanumerico(placa, TIPO_DE_PLACA_ERRONEA);
-        validarPlaca(placa, NUMERO_CARACTERES_PLACA_ERRONEA);
 
         validarFormatoFecha(fecha, FORMATO_DE_FECHA_DE_COMPRA_ERRONEA);
         validarFinDeSemana(convertirStringADate(fecha), NO_SE_AGENDAN_CITAS_SABADOS_Y_DOMINGOS);
-        validarNumerico(cedulaUsuario, LA_CEDULA_DEBE_SER_NUMERICA);
-        validarPositivo(Double.parseDouble(cedulaUsuario), LA_CEDULA_DEBE_SER_POSITIVA);
-        validarTipoVehiculo(tipoVehiculo, TIPO_DE_VEHICULO_EQUIVOCADO);
-        registrarValorServicio(tipoVehiculo);
 
-        this.cedulaUsuario = cedulaUsuario;
-        this.fecha = fecha;
-        this.placa = placa;
-        this.tipoVehiculo = tipoVehiculo.toUpperCase();
+        LocalDate fechaCita = convertirStringADate(fecha);
+
+        this.id = id;
+        this.idVehiculo = idVehiculo;
+        this.fecha = fechaCita;
     }
 
     private static void validarFormatoFecha(String fecha, String mensaje) {
@@ -95,25 +71,5 @@ public class Cita {
     private LocalDate convertirStringADate(String fecha) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATO_FECHA);
         return LocalDate.parse(fecha, formatter);
-    }
-
-    private void validarTipoVehiculo(String tipoVehiculo, String mensaje){
-        if(!TIPO_DE_VEHICULO_CARRO.equalsIgnoreCase(tipoVehiculo)  && !TIPO_DE_VEHICULO_MOTO.equalsIgnoreCase(tipoVehiculo)){
-            throw new ExcepcionValorInvalido(mensaje);
-        }
-    }
-
-    private void registrarValorServicio(String tipoVehiculo){
-        if(TIPO_DE_VEHICULO_CARRO.equalsIgnoreCase(tipoVehiculo)){
-            setValor(VALOR_SERVICIO_CARRO);
-        }else{
-            setValor(VALOR_SERVICIO_MOTO);
-        }
-    }
-
-    private void validarPlaca(String valor, String mensaje){
-        if(NUMERO_CARACTERES_PLACA != valor.length()){
-            throw new ExcepcionValorInvalido(mensaje);
-        }
     }
 }

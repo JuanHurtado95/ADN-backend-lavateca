@@ -2,7 +2,6 @@ package com.ceiba.cita.controlador;
 
 import com.ceiba.ComandoRespuesta;
 import com.ceiba.cita.comando.ComandoCita;
-import com.ceiba.cita.comando.ComandoCitaActualizar;
 import com.ceiba.cita.comando.manejador.ManejadorActualizarCita;
 import com.ceiba.cita.comando.manejador.ManejadorCrearCita;
 import com.ceiba.cita.comando.manejador.ManejadorEliminarCita;
@@ -33,11 +32,9 @@ public class ComandoControladorCita {
         return manejadorCrearCita.ejecutar(comandoCita);
     }
 
-    @PutMapping(value = "/{id}/{fechaNueva}")
+    @PutMapping(value = "/{id}")
     @ApiOperation("Reprogramar Cita")
-    public void actualizar(@PathVariable Long id, @PathVariable String fechaNueva){
-        ComandoCitaActualizar comandoCita = new ComandoCitaActualizar();
-        comandoCita.setFechaNueva(fechaNueva);
+    public void actualizar(@RequestBody ComandoCita comandoCita, @PathVariable Long id){
         comandoCita.setId(id);
         manejadorActualizarCita.ejecutar(comandoCita);
     }

@@ -11,9 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ComandoCita {
 
-    private String cedulaUsuario;
+    private Long id;
+    private Long idVehiculo;
     private String fecha;
-    private String tipoVehiculo;
-    private String placa;
 
 }

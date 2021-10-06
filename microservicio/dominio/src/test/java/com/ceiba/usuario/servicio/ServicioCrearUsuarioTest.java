@@ -41,15 +41,6 @@ public class ServicioCrearUsuarioTest {
     private static final String EL_TELEFONO_DEBE_SER_NUMERICO = "El telefono debe ser numerico, no debe contener simbolos, ni espacios";
     private static final String EL_TELEFONO_DEBE_SER_POSITIVO = "El telefono debe ser numerica positivo";
 
-    /*@Test
-    @DisplayName("Deberia lanzar una exepecion cuando la longitud de la clave sea menor a 4")
-    void deberiaLanzarUnaExepcionCuandoLaLongitudDeLaClaveSeaMenorACuatro() {
-        // arrange
-        UsuarioTestDataBuilder usuarioTestDataBuilder = new UsuarioTestDataBuilder().conCedula("124346");
-        // act - assert
-        BasePrueba.assertThrows(usuarioTestDataBuilder::build, ExcepcionLongitudValor.class, "La clave debe tener una longitud mayor o igual a 4");
-    }*/
-
     @Test
     public void validarObligatorioCedulaTest() {
         // arrange
@@ -125,8 +116,10 @@ public class ServicioCrearUsuarioTest {
     @Test
     void validarCrearUsuarioTest() {
         // arrange
+        Long id = 1l;
+        Usuario usuario = new UsuarioTestDataBuilder().build();
         Mockito.when(repositorioUsuario.existe(anyString())).thenReturn(false);
-        Long resultado = servicioCrearUsuario.ejecutar(new UsuarioTestDataBuilder().build());
-        Assert.assertEquals(resultado, resultado);
+        Long resultado = servicioCrearUsuario.ejecutar(usuario)+1;
+        BasePrueba.assertEqualsObject(resultado, id);
     }
 }

@@ -31,7 +31,7 @@ public class ServicioActulizarCita{
     private void validarExistenciaCita(Cita cita) {
         boolean existe = this.repositorioCita.existe(cita.getId());
         if(!existe){
-            throw new ExcepcionCita(LA_CITA_NO_EXISTE_EN_EL_SISTEMA);
+            throw new ExcepcionValorInvalido(LA_CITA_NO_EXISTE_EN_EL_SISTEMA);
         }
     }
 
@@ -45,6 +45,7 @@ public class ServicioActulizarCita{
         }
     }
 
-    private LocalDate fechaCita(Long id){        return this.repositorioCita.fechaCita(id);
+    private LocalDate fechaCita(Long id){
+        return this.repositorioCita.fechaCita(id);
     }
 }

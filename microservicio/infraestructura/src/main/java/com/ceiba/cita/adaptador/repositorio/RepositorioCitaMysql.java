@@ -23,11 +23,8 @@ public class RepositorioCitaMysql implements RepositorioCita {
     @SqlStatement(namespace = "cita", value = "eliminar")
     private static String sqlEliminar;
 
-    @SqlStatement(namespace = "cita", value = "existe")
-    private static String sqlExiste;
-
-    @SqlStatement(namespace = "cita", value = "existePersona")
-    private static String sqlExistePersona;
+    @SqlStatement(namespace = "cita", value = "existeVehiculo")
+    private static String sqlExisteVehiculo;
 
     @SqlStatement(namespace = "cita", value = "fechaCita")
     private static String sqlFechaCita;
@@ -61,23 +58,6 @@ public class RepositorioCitaMysql implements RepositorioCita {
     }
 
     @Override
-    public boolean existe(String placa, String fecha) {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("placa", placa);
-        paramSource.addValue("fecha", fecha);
-
-        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExiste, paramSource, Boolean.class);
-    }
-
-    @Override
-    public boolean existePersona(String cedula) {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("cedula", cedula);
-
-        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExistePersona, paramSource, Boolean.class);
-    }
-
-    @Override
     public LocalDate fechaCita(Long id) {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("id", id);
@@ -90,6 +70,13 @@ public class RepositorioCitaMysql implements RepositorioCita {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("id", id);
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExisteCitaId, paramSource, Boolean.class);
+    }
+
+    @Override
+    public boolean existeVehiculo(Long idVehiculo) {
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("idVehiculo", idVehiculo);
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExisteVehiculo, paramSource, Boolean.class);
     }
 
 }

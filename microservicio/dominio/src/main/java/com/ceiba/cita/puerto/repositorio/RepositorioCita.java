@@ -9,9 +9,8 @@ public interface RepositorioCita {
     Long crear(Cita cita);
     void actualizar(Cita cita);
     void eliminar(Long id);
-    boolean existe(String placa, String fecha);
     boolean existe(Long id);
-    boolean existePersona(String cedula);
+    boolean existeVehiculo(Long idVehiculo);
     LocalDate fechaCita(Long id);
 
 }

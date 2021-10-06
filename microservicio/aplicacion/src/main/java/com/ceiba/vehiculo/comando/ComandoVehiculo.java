@@ -1,4 +1,4 @@
-package com.ceiba.cita.comando;
+package com.ceiba.vehiculo.comando;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComandoCitaActualizar {
+public class ComandoVehiculo {
 
     private Long id;
-    private String fechaNueva;
+    private Long idUsuario;
+    private Long idTipoVehiculo;
+    private String Placa;
 
 }
