@@ -1,10 +1,8 @@
 package com.ceiba.cita.servicio;
 
-import com.ceiba.cita.excepcion.ExcepcionCita;
 import com.ceiba.cita.modelo.entidad.Cita;
 import com.ceiba.cita.puerto.repositorio.RepositorioCita;
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
-import com.ceiba.usuario.puerto.repositorio.RepositorioUsuario;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

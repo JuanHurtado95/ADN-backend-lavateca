@@ -1,6 +1,5 @@
 package com.ceiba.tipo_vehiculo.controlador;
 
-import com.ceiba.cita.modelo.dto.DtoCita;
 import com.ceiba.tipo_vehiculo.consulta.ManejadorListarTipoVehiculos;
 import com.ceiba.tipo_vehiculo.modelo.dto.DtoTipoVehiculo;
 import io.swagger.annotations.Api;

@@ -37,8 +37,7 @@ public class ServicioActualizarCitaTest {
     @Test
     public void validarExistenciaCitaId() {
         // arrange
-        Cita cita = new CitaTestDataBuilder().build();
-        cita.setId(5l);
+        Cita cita = new CitaTestDataBuilder().conId(5l).build();
         Mockito.when(repositorioCita.existe(Mockito.any())).thenReturn(false);
 
         BasePrueba.assertThrows(() -> servicioActulizarCita.ejecutar(cita), ExcepcionValorInvalido.class, LA_CITA_NO_EXISTE_EN_EL_SISTEMA);

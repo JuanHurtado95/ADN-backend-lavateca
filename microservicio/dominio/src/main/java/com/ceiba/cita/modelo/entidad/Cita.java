@@ -31,13 +31,6 @@ public class Cita {
     private Long idVehiculo;
     private LocalDate fecha;
 
-    /*public Cita(Long id, String fecha) {
-
-        this.id = id;
-        this.fecha = convertirStringADate(fecha);
-
-    }*/
-
     public Cita(Long id, Long idVehiculo, String fecha) {
 
         validarObligatorio(idVehiculo, SE_DEBE_INGRESAR_UN_ID_DE_VEHICULO);

@@ -14,6 +14,6 @@ public class ComandoVehiculo {
     private Long id;
     private Long idUsuario;
     private Long idTipoVehiculo;
-    private String Placa;
+    private String placa;
 
 }
