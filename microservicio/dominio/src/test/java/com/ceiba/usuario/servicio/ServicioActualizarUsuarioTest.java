@@ -32,8 +32,8 @@ public class ServicioActualizarUsuarioTest {
     @DisplayName("Deberia validar la existencia previa del usuario")
     void deberiaValidarLaExistenciaPreviaDelUsuario() {
         // arrange
-        Usuario usuario = new UsuarioTestDataBuilder().conId(1L).build();
-        Mockito.when(repositorioUsuario.existeExcluyendoId(Mockito.anyLong(),Mockito.anyString())).thenReturn(true);
+        Usuario usuario = new UsuarioTestDataBuilder().conId(5L).conCedula("7634535").build();
+        Mockito.when(repositorioUsuario.existe(Mockito.anyString())).thenReturn(true);
         // act - assert
         BasePrueba.assertThrows(() -> servicioActualizarUsuario.ejecutar(usuario), ExcepcionDuplicidad.class,"El usuario ya existe en el sistema");
     }
