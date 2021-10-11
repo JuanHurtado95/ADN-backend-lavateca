@@ -44,9 +44,14 @@ public class ServicioActualizarCitaTest {
     }
 
     @Test
-    public void validarActualizarFechaCitaTest() {
+    public void validarActualizarFechaCitaUnDiaAntesTest() {
         // arrange
         BasePrueba.assertThrows(() -> servicioActulizarCita.validarActualizarFechaCita(LocalDate.now().plusDays(1)), ExcepcionValorInvalido.class, NO_PUEDE_ACTUALIZAR_LA_FECHA_DE_LA_CITA);
+    }
+
+    @Test
+    public void validarActualizarFechaCitaFechaVencidaTest() {
+        // arrange
         BasePrueba.assertThrows(() -> servicioActulizarCita.validarActualizarFechaCita(LocalDate.now().plusDays(-1)), ExcepcionValorInvalido.class, LA_CITA_ESTA_VENCIDA);
     }
 }
