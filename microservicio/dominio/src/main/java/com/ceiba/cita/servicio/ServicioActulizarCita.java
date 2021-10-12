@@ -13,6 +13,7 @@ public class ServicioActulizarCita{
     private static final String NO_PUEDE_ACTUALIZAR_LA_FECHA_DE_LA_CITA = "No puede reprogramar la cita un dia antes a la fecha";
     private static final String LA_CITA_ESTA_VENCIDA = "No puede reprogramar una cita vencida";
     private static final int NUMERO_DE_DIAS_NO_ACTUALIZACION = 1;
+    private static final int MISMO_DIA_NO_ACTUALIZACION = 0;
 
     private final RepositorioCita repositorioCita;
 
@@ -33,12 +34,13 @@ public class ServicioActulizarCita{
         }
     }
 
-    public void validarActualizarFechaCita(LocalDate fechaCita){
+    private void validarActualizarFechaCita(LocalDate fechaCita){
         LocalDate fechaActual = LocalDate.now();
-        if(ChronoUnit.DAYS.between(fechaActual, fechaCita) == NUMERO_DE_DIAS_NO_ACTUALIZACION){
+        if(ChronoUnit.DAYS.between(fechaActual, fechaCita) == NUMERO_DE_DIAS_NO_ACTUALIZACION
+        || ChronoUnit.DAYS.between(fechaActual, fechaCita) == MISMO_DIA_NO_ACTUALIZACION){
             throw new ExcepcionValorInvalido(NO_PUEDE_ACTUALIZAR_LA_FECHA_DE_LA_CITA);
         }
-        if(ChronoUnit.DAYS.between(fechaActual, fechaCita) < NUMERO_DE_DIAS_NO_ACTUALIZACION){
+        if(ChronoUnit.DAYS.between(fechaActual, fechaCita) < MISMO_DIA_NO_ACTUALIZACION){
             throw new ExcepcionValorInvalido(LA_CITA_ESTA_VENCIDA);
         }
     }

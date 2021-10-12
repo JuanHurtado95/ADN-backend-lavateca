@@ -94,8 +94,10 @@ public class ServicioCrearCitaTest {
         Cita cita = new CitaTestDataBuilder().build();
         Mockito.when(repositorioCita.existe(cita.getId())).thenReturn(false);
         Mockito.when(repositorioCita.existeVehiculo(cita.getIdVehiculo())).thenReturn(true);
-
-        BasePrueba.assertEqualsObject(servicioCrearCita.ejecutar(cita), 0l);
+        //act
+        servicioCrearCita.ejecutar(cita);
+        // assert
+        Mockito.verify(repositorioCita).crear(cita);
     }
 
 }

@@ -3,6 +3,9 @@ package com.ceiba.cita.servicio.testdatabuilder;
 import com.ceiba.cita.modelo.entidad.Cita;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class CitaTestDataBuilder {
 
     private Long id;
@@ -23,6 +26,22 @@ public class CitaTestDataBuilder {
 
     public CitaTestDataBuilder conFecha(String fecha){
         this.fecha = fecha;
+        return this;
+    }
+
+    public CitaTestDataBuilder conFechaActual(){
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedString = fechaActual.format(formatter);
+        this.fecha = formattedString;
+        return this;
+    }
+
+    public CitaTestDataBuilder conFechaVencida(){
+        LocalDate fechaActual = LocalDate.now().plusDays(-1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedString = fechaActual.format(formatter);
+        this.fecha = formattedString;
         return this;
     }
 

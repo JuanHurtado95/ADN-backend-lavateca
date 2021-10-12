@@ -108,7 +108,7 @@ public class ServicioCrearUsuarioTest {
     void validarExistenciaPreviaTest() {
         Usuario usuario = new UsuarioTestDataBuilder().build();
 
-        Mockito.when(repositorioUsuario.existe(Mockito.anyString())).thenReturn(true);
+        Mockito.when(repositorioUsuario.existe(usuario.getCedula())).thenReturn(true);
 
         BasePrueba.assertThrows(() -> servicioCrearUsuario.ejecutar(usuario), ExcepcionDuplicidad.class,EL_USUARIO_YA_EXISTE_EN_EL_SISTEMA);
     }
@@ -116,10 +116,11 @@ public class ServicioCrearUsuarioTest {
     @Test
     void validarCrearUsuarioTest() {
         // arrange
-        Long id = 1l;
         Usuario usuario = new UsuarioTestDataBuilder().build();
-        Mockito.when(repositorioUsuario.existe(anyString())).thenReturn(false);
-        Long resultado = servicioCrearUsuario.ejecutar(usuario)+1;
-        BasePrueba.assertEqualsObject(resultado, id);
+        Mockito.when(repositorioUsuario.existe(usuario.getCedula())).thenReturn(false);
+        //act
+        servicioCrearUsuario.ejecutar(usuario);
+        // assert
+        Mockito.verify(repositorioUsuario).crear(usuario);
     }
 }

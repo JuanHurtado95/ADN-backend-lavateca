@@ -20,8 +20,8 @@ public class ComandoUsuarioTestDataBuilder {
         telefono = "23433564";
     }
 
-    public ComandoUsuarioTestDataBuilder conNombre(String nombre) {
-        this.nombre = nombre;
+    public ComandoUsuarioTestDataBuilder conId(Long id) {
+        this.id = id;
         return this;
     }
 

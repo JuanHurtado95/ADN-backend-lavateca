@@ -56,18 +56,26 @@ public class ComandoControladorCitaTest {
     }
 
     @Test
-    public void eliminarTest() throws Exception{
-        Long id = 1l;
+    public void eliminarCitaTest() throws Exception{
 
-        mocMvc.perform(delete("/citas/{id}", id)
+        ComandoCita cita = new ComandoCitaTestDataBuilder().conFecha("2021-12-07").build();
+
+        mocMvc.perform(post("/citas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cita)))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'valor': 2}"));
+
+        mocMvc.perform(delete("/citas/{id}", cita.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mocMvc.perform(get("/citas")
-                .contentType(MediaType.APPLICATION_JSON))
+        mocMvc.perform(post("/citas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cita)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(0)));
+                .andExpect(content().json("{'valor': 3}"));
     }
 
 }

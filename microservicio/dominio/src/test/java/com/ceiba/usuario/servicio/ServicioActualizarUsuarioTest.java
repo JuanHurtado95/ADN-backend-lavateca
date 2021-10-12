@@ -37,4 +37,17 @@ public class ServicioActualizarUsuarioTest {
         // act - assert
         BasePrueba.assertThrows(() -> servicioActualizarUsuario.ejecutar(usuario), ExcepcionDuplicidad.class,"El usuario ya existe en el sistema");
     }
+
+    @Test
+    @DisplayName("Deberia validar actualizacion del usuario")
+    void ValidarActualizacionUsuarioTest() {
+        // arrange
+        Usuario usuario = new UsuarioTestDataBuilder().conCedula("76534535").build();
+        Mockito.when(repositorioUsuario.existe(usuario.getCedula())).thenReturn(false);
+        // act
+        servicioActualizarUsuario.ejecutar(usuario);
+        // assert
+        Mockito.verify(repositorioUsuario).actualizar(usuario);
+    }
+
 }
